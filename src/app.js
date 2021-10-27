@@ -21,11 +21,11 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/", routes);
+
 app.use(function (req, res, next) {
   //Capture All 404 errors
   res.status(404).send("Page not found");
 });
-
-app.use("/", routes);
 
 app.listen(PORT, () => console.log(`server running at port ${PORT}`));

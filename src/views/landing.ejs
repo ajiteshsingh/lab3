@@ -13,7 +13,7 @@
         <em>SER421 MVC Ex Landing Page</em>
     </p>
     <FORM ACTION="./controller" METHOD="POST">
-        Username: <INPUT TYPE="text" NAME="username" SIZE="10" /><br />
+        Username: <INPUT TYPE="text" NAME="username" required SIZE="10" pattern="^[A-Za-z]{1,}$" /><br />
         <INPUT TYPE="submit" NAME="action" value="survey" />
         <INPUT TYPE="submit" NAME="action" value="match" />
     </FORM>
