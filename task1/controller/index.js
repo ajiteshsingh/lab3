@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const questions = require("../models/surver_data");
+const modelUtility = require("../models/index");
+
 SURVEY = "survey";
 MATCH = "match";
 SET_PREFERENCE = "setpreferences";
@@ -10,6 +12,9 @@ const mainController = {
     res.render(path.join(__dirname + "/../views/landing"));
   },
   processUserInput(req, res) {
+    /**
+     * TODO refactor
+     */
     const action = req.body.action || req.query.action;
     switch (action) {
       case SURVEY:
@@ -43,6 +48,11 @@ const mainController = {
           Location: req.headers.origin + "/controller?action=survey",
         });
         res.send();
+        break;
+      case MATCH:
+        const data = modelUtility.processMatches(req, res, (matches) => {
+          res.render(path.join(__dirname + "/../views/match"), matches);
+        });
         break;
     }
   },
