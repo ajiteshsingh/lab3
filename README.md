@@ -14,4 +14,12 @@ npm intall
 npm run dev
 ```
 
-Pending - input minlength not working
+### To use another test data
+
+Copy and paste the JSON in
+
+```
+src/model/survey.json
+```
+
+and run the application again

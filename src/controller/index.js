@@ -1,7 +1,9 @@
 const fs = require("fs");
 const path = require("path");
-const questions = require("../models/surver_data");
+const lab3survey = require("../models/surver_data");
 const modelUtility = require("../models/index");
+
+const questions = lab3survey;
 
 SURVEY = "survey";
 MATCH = "match";
@@ -33,7 +35,9 @@ const mainController = {
             req.session.answers[id] = req.body.answer;
           }
           if (lastpage >= questions.questions.length - 1) {
-            res.render(path.join(__dirname + "/../views/surveycomplete"));
+            res.render(path.join(__dirname + "/../views/surveycomplete"), {
+              user: req.session.user,
+            });
             return;
           }
           const question = questions.questions[lastpage];
@@ -82,6 +86,9 @@ function checkIfSessionExists(req) {
 }
 
 function processCurrentPage(req) {
+  if (req.query.action) {
+    return;
+  }
   if (!("submit" in req.body)) {
     req.session.lastpage = 0;
   } else {
