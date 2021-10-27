@@ -57,20 +57,19 @@
 
         <% question.choices.forEach((choice, i)=> { %>
             <% let genreChk=i.toString()==answer ? "checked" : "" %>
-                <%=answer %>
-                    <input type="radio" name="answer" value="<%= i%>">
-                    <%= choice.choice%>
-                        <% if (preference=='vertical' ) {%>
-                            <br>
-                            <% }%>
-                                <% }); %>
+                <input type="radio" name="answer" value="<%= i%>" <%=genreChk %>>
+                <%= choice.choice%>
+                    <% if (preference=='vertical' ) {%>
+                        <br>
+                        <% }%>
+                            <% }); %>
 
-                                    <% if (page <=0) {%>
-                                        <input type="submit" name="submit" value="prev">
-                                        <% }%>
-                                            <input type="submit" name="submit" value="next">
+                                <% if (page> 0) {%>
+                                    <input type="submit" name="submit" value="previous">
+                                    <% }%>
+                                        <input type="submit" name="submit" value="next">
 
-                                            <p></p>
+                                        <p></p>
     </form>
 
 </body>

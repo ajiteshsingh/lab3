@@ -13,21 +13,15 @@ const mainController = {
     const action = req.body.action || req.query.action;
     switch (action) {
       case SURVEY:
-        if (!("submit" in req.body)) {
-          req.session.lastpage = 0;
-        }
+        let prevPage = req.session.lastpage;
+        processCurrentPage(req);
         let lastpage = req.session.lastpage || 0;
-        if (!req.session.user) {
-          req.session.user = req.body.username;
-          req.session.lastpage = 0;
-          req.session.answers = {};
-        }
+        checkIfSessionExists(req);
+
         if (req.body.answer) {
-          const id = questions.questions[lastpage].id;
+          const id = questions.questions[prevPage].id;
           req.session.answers[id] = req.body.answer;
         }
-        lastpage = req.session.lastpage;
-        req.session.lastpage = lastpage;
         if (lastpage >= questions.questions.length - 1) {
           res.render(path.join(__dirname + "/../views/surveycomplete"));
           return;
@@ -41,11 +35,6 @@ const mainController = {
           answer: req.session.answers[question.id],
           preference: req.session.preference || "horizontal",
         };
-        if (req.body.submit == "previous") {
-          req.session.lastpage -= 1;
-        } else {
-          req.session.lastpage += 1;
-        }
         res.render(path.join(__dirname + "/../views/survey"), param);
         break;
       case SET_PREFERENCE:
@@ -61,5 +50,25 @@ const mainController = {
     res.render(path.join(__dirname + "/../views/preferences"));
   },
 };
+
+function checkIfSessionExists(req) {
+  if (!req.session.user) {
+    req.session.user = req.body.username;
+    req.session.lastpage = 0;
+    req.session.answers = {};
+  }
+}
+
+function processCurrentPage(req) {
+  if (!("submit" in req.body)) {
+    req.session.lastpage = 0;
+  } else {
+    if (req.body.submit == "previous") {
+      req.session.lastpage -= 1;
+    } else {
+      req.session.lastpage += 1;
+    }
+  }
+}
 
 module.exports = mainController;
